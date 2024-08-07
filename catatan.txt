@@ -1,0 +1,45 @@
+jika muncul error
+SQLSTATE[42S02]: Base table or view not found: 1146 
+jalankan perintah 
+php artisan migrate
+
+install filamentcomposer require filament/filament:"^3.2" -W
+ 
+php artisan filament:install --panels
+
+membuat user
+php artisan make:filament-user
+
+php artisan make:model Office -m
+php artisan migrate
+
+Membuat CRUD generate
+php artisan make:filament-resource Shift --generate
+
+install filament shield
+composer require bezhansalleh/filament-shield
+
+publish configurasi
+php artisan vendor:publish --tag=filament-shield-config
+
+buka file app/Providers/Filament/AdminPanelProvider.php
+paling bawah tambahkan 
+            ->authMiddleware([
+                Authenticate::class,
+            ])
+            ->plugins([
+                \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make()
+            ]);
+
+jalankan
+php artisan shield:install
+
+install Map
+composer require humaidem/filament-map-picker
+
+install laravel sanctum
+php artisan install:api
+
+membuat controller
+php artisan make:controller API/AuthController 
+php artisan make:controller API/AttendanceController
